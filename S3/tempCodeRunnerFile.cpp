@@ -43,9 +43,12 @@ int main()
 {
     cout << "\nLa cadena mas larga!" << endl;
     menu();
+    /*mayor();
+    cout << "\nLa cadena mas larga es del invitado " << CadenaMasLarga[0] << " con longitud " << CadenaMasLarga[1] << endl;
+    */
 }
 void menu()
-{ // Menu de inicio
+{
     int opcion;
     do
     {
@@ -86,13 +89,11 @@ void menu()
         }
         system("cls");
     } while (opcion < 3 && opcion > 0);
-    cout << "\n Adios! ";
 }
 int mostrar(int longitud)
-{ // Esta función imprime los elementos de la cadena
-    cout << "\nlongitud " << longitud << endl;
-    cout << "\nLa cadena para " << numero << " es:\n";
-
+{
+    cout << "longitud " << longitud << endl;
+    cout << "La cadena para " << numero << " es:\n";
     for (int i = 0; i < longitud; i++)
     {
         cout << cadena[i];
@@ -105,19 +106,22 @@ int mostrar(int longitud)
     }
 }
 int mayor()
-{ // Esta función calcula el número del invitado que posee la cadena más larga y su longitud
+{
     for (int i = 1; i < 100; i++)
     {
+        cout << "longitud actual " << calculoLongitud(i) << endl;
         if (calculoLongitud(i) > longitudAnterior)
         {
-            longitudAnterior = calculoLongitud(i);
+            longitudAnterior = longitud;
             cadena[0] = i;
+            cadena[1] = longitudAnterior;
         }
+        cout << "longitud anterior " << longitudAnterior << endl;
     }
-    cout << "\nLa cadena mas larga es del invitado " << cadena[0] << " con longitud " << longitudAnterior << endl;
+    cout << "\nLa cadena mas larga es del invitado " << cadena[0] << " con longitud " << cadena[1] << endl;
 }
 int calculoLongitud(int numero)
-{ // Algoritmo para obtener la cadena
+{
     int inc = 1;
     do
     {
@@ -132,11 +136,11 @@ int calculoLongitud(int numero)
         }
         cadena[inc] = numero;
         inc++;
-    } while (numero > 4);
+    } while (numero != 4);
     return inc;
 }
 bool pariedad(int numero)
-{ // Determina la pariedad del valor ingresado
+{
     if (numero % 2 == 0)
         return true; // par
     else
