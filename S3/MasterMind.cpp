@@ -246,3 +246,4 @@ int main()
             break;
         }
     } while (!salir);
+}
