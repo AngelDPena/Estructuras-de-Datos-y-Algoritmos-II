@@ -8,11 +8,12 @@
     1099040             Víctor Gómez
     1103314             Ángel Diego Peña Calderón
     1091415             Emilio Ariel Santos Mateo
+    1103307             Rusber Duarte
 */
 
 #include <iostream>
 
-bool analizarJugada(std::string arr[4]) //Funcion para determinar si el jugador gana o no
+bool analizarJugada(std::string arr[4]) // Funcion para determinar si el jugador gana o no
 {
     for (int x = 0; x < 4; x++)
     {
@@ -36,7 +37,7 @@ int main()
 
     do
     {
-        srand(time(0)); //Esto permite generar instancias nuevas para no obtener la misma secuencia de numeros
+        srand(time(0)); // Esto permite generar instancias nuevas para no obtener la misma secuencia de numeros
         int turnos = 5; // Reinicia el conteo de la cantidad de turnos
         std::cout << "MASTERMIND" << std::endl;
         std::cout << "1: vs CPU\n2: vs otro usuario\nInsertar cualquier otro numero para salir\n\n> ";
@@ -45,9 +46,9 @@ int main()
         {
         case 1:
         {
-            for (int x = 0; x < 4; x++) //Generación de clave (CPU)
+            for (int x = 0; x < 4; x++) // Generación de clave (CPU)
             {
-                do //Revisar si el número es único
+                do // Revisar si el número es único
                 {
                     clave[x] = (1 + (rand() % 6));
                     valido = true;
@@ -65,32 +66,34 @@ int main()
             while (turnos > 0)
             {
                 std::cout << "Jugadas restantes: " << turnos << "\n";
-                for (int x = 0; x < 4; x++) //Jugada del decodificador
+                for (int x = 0; x < 4; x++) // Jugada del decodificador
                 {
-                    do //Revisar que el numero sea valido
+                    do // Revisar que el numero sea valido
                     {
                         std::cout << "Inserte el digito #" << x + 1 << ": ";
                         std::cin >> jugada[x];
                         valido = true;
-                        for (int y = 0; y < x; y++) //Revisar si el número es unico
+                        for (int y = 0; y < x; y++) // Revisar si el número es unico
                         {
                             if (jugada[x] == jugada[y])
                             {
                                 valido = false;
-                                std::cout << "\n! Este digito ha sido utilizado, inserte otro\n" << std::endl;
+                                std::cout << "\n! Este digito ha sido utilizado, inserte otro\n"
+                                          << std::endl;
                                 break;
                             }
                         }
                         if (jugada[x] > 6 || jugada[x] < 1) // Revisar que el numero esté comprendido entre 1 y 6
                         {
-                            std::cout << "\n! Este digito se sale del rango (1-6), inserte otro\n" << std::endl;
+                            std::cout << "\n! Este digito se sale del rango (1-6), inserte otro\n"
+                                      << std::endl;
                             x--;
                         }
                     } while (!valido);
                 }
                 std::cout << std::endl;
                 std::cout << "Pista: ";
-                for (int x = 0; x < 4; x++) //Generación de pista
+                for (int x = 0; x < 4; x++) // Generación de pista
                 {
                     auto frio = std::find(std::begin(clave), std::end(clave), jugada[x]);
                     if (jugada[x] == clave[x])
@@ -132,33 +135,34 @@ int main()
                 {
                     std::cout << clave[x] << " ";
                 }
-
             }
         }
-        std::cout << "\n\n";
-        break;
+            std::cout << "\n\n";
+            break;
         case 2:
         {
             std::cout << "\nGeneremos la clave: Turno del codificador\n";
-            for (int x = 0; x < 4; x++) //Jugada del codificador
+            for (int x = 0; x < 4; x++) // Jugada del codificador
             {
-                do //Revisar que el numero sea valido
+                do // Revisar que el numero sea valido
                 {
                     std::cout << "Inserte el digito #" << x + 1 << ": ";
                     std::cin >> clave[x];
                     valido = true;
-                    for (int y = 0; y < x; y++) //Revisar si el número es unico
+                    for (int y = 0; y < x; y++) // Revisar si el número es unico
                     {
                         if (clave[x] == clave[y])
                         {
                             valido = false;
-                            std::cout << "\n! Este digito ha sido utilizado, inserte otro\n" << std::endl;
+                            std::cout << "\n! Este digito ha sido utilizado, inserte otro\n"
+                                      << std::endl;
                             break;
                         }
                     }
                     if (clave[x] > 6 || clave[x] < 1) // Revisar que el numero esté comprendido entre 1 y 6
                     {
-                        std::cout << "\n! Este digito se sale del rango (1-6), inserte otro\n" << std::endl;
+                        std::cout << "\n! Este digito se sale del rango (1-6), inserte otro\n"
+                                  << std::endl;
                         x--;
                     }
                 } while (!valido);
@@ -167,32 +171,34 @@ int main()
             while (turnos > 0)
             {
                 std::cout << "Jugadas restantes: " << turnos << "\n";
-                for (int x = 0; x < 4; x++) //Jugada del decodificador
+                for (int x = 0; x < 4; x++) // Jugada del decodificador
                 {
-                    do //Revisar que el numero sea valido
+                    do // Revisar que el numero sea valido
                     {
                         std::cout << "Inserte el digito #" << x + 1 << ": ";
                         std::cin >> jugada[x];
                         valido = true;
-                        for (int y = 0; y < x; y++) //Revisar si el número es unico
+                        for (int y = 0; y < x; y++) // Revisar si el número es unico
                         {
                             if (jugada[x] == jugada[y])
                             {
                                 valido = false;
-                                std::cout << "\n! Este digito ha sido utilizado, inserte otro\n" << std::endl;
+                                std::cout << "\n! Este digito ha sido utilizado, inserte otro\n"
+                                          << std::endl;
                                 break;
                             }
                         }
                         if (jugada[x] > 6 || jugada[x] < 1)
                         {
-                            std::cout << "\n! Este digito se sale del rango (1-6), inserte otro\n" << std::endl;
+                            std::cout << "\n! Este digito se sale del rango (1-6), inserte otro\n"
+                                      << std::endl;
                             x--;
                         }
                     } while (!valido);
                 }
                 std::cout << std::endl;
                 std::cout << "Pista: ";
-                for (int x = 0; x < 4; x++) //Generación de pista
+                for (int x = 0; x < 4; x++) // Generación de pista
                 {
                     auto frio = std::find(std::begin(clave), std::end(clave), jugada[x]);
                     if (jugada[x] == clave[x])
@@ -236,10 +242,10 @@ int main()
                 }
             }
         }
-        std::cout << "\n\n";
-        break;
+            std::cout << "\n\n";
+            break;
         default:
-            salir = true; //Termina el bucle si se inserta cualquier otro valor
+            salir = true; // Termina el bucle si se inserta cualquier otro valor
             break;
         }
     } while (!salir);

@@ -24,6 +24,7 @@
     1099040             Víctor Gómez
     1103314             Ángel Diego Peña Calderón
     1091415             Emilio Ariel Santos Mateo
+    1103307             Rusber Duarte
 */
 
 #include <iostream>
