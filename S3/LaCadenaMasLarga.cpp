@@ -33,6 +33,7 @@ using namespace std;
 // Declaracion de variables
 int numero = 0, longitud = 0, longitudAnterior = 0;
 int cadena[200] = {};
+
 // Prototipo de funciones
 int calculoLongitud(int numero);
 int mayor();
