@@ -26,16 +26,22 @@ struct node
     int elem;
     node *right;
     node *left;
+    node *father;
 };
 
 // Protoripos de Funciones
 void menu();
-node *createNode(int);
-void insertNode(node *&, int);
+node *createNode(int, node *);
+void insertNode(node *&, int, node *);
 void showTree(node *, int);
 bool searchNode(node *, int);
 bool isNull(node *);
+void eliminate(node *, int);
+void eliminateNode(node *);
+node *min(node *);
+void replace(node *, node *);
 node *tree = NULL;
+void destroyNode(node *);
 
 int main()
 {
@@ -50,8 +56,9 @@ void menu()
         cout << "\t.:MENU:." << endl;
         cout << "1. Insert new node" << endl;
         cout << "2. Search node" << endl;
-        cout << "3. Show tree" << endl;
-        cout << "4. Exit" << endl;
+        cout << "3. Eliminate node" << endl;
+        cout << "4. Show tree" << endl;
+        cout << "5. Exit" << endl;
         cout << "You chose: ";
         cin >> option;
         switch (option)
@@ -59,7 +66,7 @@ void menu()
         case 1:
             cout << "\nInsert a number: ";
             cin >> elem;
-            insertNode(tree, elem); // Insertar un nuevo nodo
+            insertNode(tree, elem, NULL); // Insertar un nuevo nodo
             break;
         case 2:
 
@@ -80,6 +87,11 @@ void menu()
                 cout << "\nEmpty Tree..." << endl;
             break;
         case 3:
+            cout << "\nEnter the number you want to eliminate: ";
+            cin >> elem;
+            eliminate(tree, elem);
+            break;
+        case 4:
             if (isNull(tree) == false)
             {
                 cout << "\nShowing tree...\n\n";
@@ -92,25 +104,25 @@ void menu()
         cout << "\n";
         system("pause");
         system("cls");
-    } while (option > 0 && option < 4);
+    } while (option > 0 && option < 5);
 }
 // Crear nuevo nodo
-node *createNode(int n)
+node *createNode(int n, node *father)
 {
     node *newNode = new node();
     newNode->elem = n;
     newNode->right = NULL;
     newNode->left = NULL;
-
+    newNode->father = father;
     return newNode;
 }
 // insertar elementos en el arbol
 
-void insertNode(node *&tree, int n)
+void insertNode(node *&tree, int n, node *father)
 {
     if (tree == NULL)
     { // Cuando el arbol esta vacio
-        node *newNode = createNode(n);
+        node *newNode = createNode(n, father);
         tree = newNode;
     }
     else
@@ -118,12 +130,12 @@ void insertNode(node *&tree, int n)
         int rootVal = tree->elem; // obtener el valor de la raiz
         if (n < rootVal)          // Insertar elemento en el lado izquierdo
         {
-            insertNode(tree->left, n);
+            insertNode(tree->left, n, tree);
         }
         else
         {
             // insertar en el lado derecho
-            insertNode(tree->right, n);
+            insertNode(tree->right, n, tree);
         }
     }
 }
@@ -174,4 +186,93 @@ bool isNull(node *tree)
         return true;
     else
         return false;
+}
+// Buscar el elemento a eliminar
+void eliminate(node *tree, int n)
+{
+    if (tree == NULL)
+    {
+        return;
+    }
+    else if (n < tree->elem) // Buscar por la izquierda
+    {
+        eliminate(tree->left, n);
+    }
+    else if (n > tree->elem) // Buscar por la derecha
+    {
+        eliminate(tree->right, n);
+    }
+    else // Encontramos el valor
+    {
+        eliminateNode(tree);
+    }
+}
+// Eliminar el nodo encontrado
+void eliminateNode(node *nodeToEliminate)
+{
+    if (nodeToEliminate->left && nodeToEliminate->right) // al tener 2 hijos
+    {
+        node *minor = min(nodeToEliminate->right);
+        nodeToEliminate->elem = minor->elem;
+        eliminateNode(minor);
+    }
+    else if (nodeToEliminate->left) // al tener 1 hijo izquierdo
+    {
+        replace(nodeToEliminate, nodeToEliminate->left);
+        destroyNode(nodeToEliminate);
+    }
+    else if (nodeToEliminate->right) // al tener 1 hijo derecho
+    {
+        replace(nodeToEliminate, nodeToEliminate->right);
+        destroyNode(nodeToEliminate);
+    }
+    else
+    { // No tiene hijos
+        replace(nodeToEliminate, NULL);
+        destroyNode(nodeToEliminate);
+    }
+}
+// Funcion para determinar el nodo mas izquierdo posible
+node *min(node *tree)
+{
+    if (isNull(tree) == true) // Si el arbol está vacío
+    {
+        return NULL; // Retornamos Nulo
+    }
+    if (tree->left) // Si tiene hijo izquierdo
+    {
+        return min(tree->left);
+    }
+    else // Si no tiene hijo izquierdo
+    {
+        return tree; // Retornamos el mismo nodo
+    }
+}
+// Funcion para reemplazar dos nodos
+void replace(node *tree, node *newNode)
+{
+    if (tree->father)
+    {
+        // Asignarle su nuevo hijo
+        if (tree->elem == tree->father->left->elem)
+        {
+            tree->father->left = newNode;
+        }
+        else if (tree->elem == tree->father->right->elem)
+        {
+            tree->father->right = newNode;
+        }
+    }
+    if (newNode)
+    {
+        // Asignarle su nuevo padre
+        newNode->father = tree->father;
+    }
+}
+// Funcion para destruir nodo
+void destroyNode(node *Node)
+{
+    Node->left = NULL;
+    Node->right = NULL;
+    delete Node;
 }
